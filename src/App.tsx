@@ -1,7 +1,11 @@
 import React from 'react';
+import {Planet} from './components/Planet';
+import './App.scss';
 
 export const App: React.FC = () => {
-    return <>
-        <h1>React</h1>
-    </>
+    return (
+        <div className="wrapper">
+            <Planet />
+        </div>
+    );
 };
