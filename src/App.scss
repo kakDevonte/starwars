@@ -18,12 +18,12 @@ body {
   color: #b9b9b9;
   border-radius: 5px;
 
-  h1 {
-    padding: 10px;
-    text-align: center;
-  }
-
   @media (max-width: 845px) {
     width: calc(100vw - 30px);
   }
+}
+
+.title {
+    padding: 10px;
+    text-align: center;
 }
