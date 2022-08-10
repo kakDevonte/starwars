@@ -1,3 +1,29 @@
+* {
+  font-family: "DIN Next W01 Regular", sans-serif;
+  //font-family: "DIN Next W01 Regular";
+  margin: 0;
+}
+
+body {
+  margin: 0;
+}
+
 .wrapper {
-  background-color: #6200EE;
+  width: calc(100vw - 200px);
+  height: 100%;
+  margin: 0 auto;
+  background-color: #151515!important;
+  max-width: 1400px;
+  box-sizing: border-box;
+  color: #b9b9b9;
+  border-radius: 10px;
+
+  h1 {
+    padding: 10px;
+    text-align: center;
+  }
+
+  @media (max-width: 845px) {
+    width: calc(100vw - 30px);
+  }
 }
