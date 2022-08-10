@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import './App.scss';
 import { PlanetsPage } from './pages/PlanetsPage';
+import './App.scss';
 
 export const App: React.FC = () => {
   return (
