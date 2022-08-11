@@ -1,64 +1,54 @@
 import React from 'react';
 import { Planet } from '../../components/Planet';
 import styles from './PlanetsPage.module.scss';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
+import { getPlanets } from '../../redux/planets/asyncActions';
+
+const options = {
+  rootMargin: '0px',
+  threshold: 0.5,
+};
 
 export const PlanetsPage: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const { results, next } = useAppSelector((state) => state.planets);
+  const [page, setPage] = React.useState(1);
+  const [isFetching, setIsFetching] = React.useState(false);
+  const observer = React.useRef();
+  const lastPlanetElementRef = React.useRef<HTMLDivElement>(null);
+
+  const callbackFunc = (entries: any) => {
+    console.log('.asdsa');
+    const [entry] = entries;
+    setPage(page + 1);
+    dispatch(getPlanets(page + 1));
+  };
+
+  React.useEffect(() => {
+    dispatch(getPlanets(page));
+  }, []);
+
+  React.useEffect(() => {
+    console.log('Меню обсервер');
+    const observer = new IntersectionObserver(callbackFunc, options);
+
+    if (lastPlanetElementRef.current)
+      observer.observe(lastPlanetElementRef.current);
+
+    return () => {
+      if (lastPlanetElementRef.current)
+        observer.unobserve(lastPlanetElementRef.current);
+    };
+  }, [lastPlanetElementRef]);
+
   return (
     <div className={styles.root}>
-      <Planet
-        id={'1'}
-        name={'Tatooine'}
-        population={'200000'}
-        terrain={'desert'}
-      />
-      <Planet
-        id={'2'}
-        name={'Alderaan'}
-        population={'2000000000'}
-        terrain={'grasslands, mountains'}
-      />
-      <Planet
-        id={'2'}
-        name={'Yavin IV'}
-        population={'1000'}
-        terrain={'jungle, rainforests'}
-      />
-      <Planet
-        id={'3'}
-        name={'Hoth'}
-        population={'unknown'}
-        terrain={'tundra, ice caves, mountain ranges'}
-      />
-      <Planet
-        id={'4'}
-        name={'Dagobah'}
-        population={'unknown'}
-        terrain={'swamp, jungles'}
-      />
-      <Planet
-        id={'5'}
-        name={'Bespin'}
-        population={'6000000'}
-        terrain={'gas giant'}
-      />
-      <Planet
-        id={'6'}
-        name={'Endor'}
-        population={'30000000'}
-        terrain={'forests, mountains, lakes'}
-      />
-      <Planet
-        id={'7'}
-        name={'Naboo'}
-        population={'4500000000'}
-        terrain={'grassy hills, swamps, forests, mountains'}
-      />
-      <Planet
-        id={'8'}
-        name={'Coruscant'}
-        population={'1000000000000'}
-        terrain={'cityscape, mountains'}
-      />
+      {results.map((item, i) => {
+        const isLastElement: boolean = results.length === i + 1;
+        if (isLastElement)
+          return <Planet key={i} ref={lastPlanetElementRef} {...item} />;
+        else return <Planet key={i} {...item} />;
+      })}
     </div>
   );
 };
