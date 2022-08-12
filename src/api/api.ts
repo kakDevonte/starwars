@@ -8,4 +8,7 @@ export const starAPI = {
   getPlanets(page: number) {
     return instance.get(`planets/?page=${page}`);
   },
+  getPlanetById(id: number) {
+    return instance.get(`planets/${id}`);
+  },
 };

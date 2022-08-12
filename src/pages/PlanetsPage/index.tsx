@@ -3,6 +3,7 @@ import { Planet } from '../../components/Planet';
 import styles from './PlanetsPage.module.scss';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { getPlanets } from '../../redux/planets/asyncActions';
+import { clearResults } from '../../redux/planets/slice';
 
 export const PlanetsPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -23,6 +24,11 @@ export const PlanetsPage: React.FC = () => {
     },
     [next]
   );
+
+  React.useEffect(() => {
+    dispatch(clearResults());
+    setPage(1);
+  }, []);
 
   React.useEffect(() => {
     dispatch(getPlanets(page));

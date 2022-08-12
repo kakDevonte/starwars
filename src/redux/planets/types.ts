@@ -3,6 +3,7 @@ export type PlanetsState = {
   next: string | null;
   previous: string | null;
   results: PlanetType[];
+  currPlanet: PlanetType | null;
 };
 
 export type PlanetType = {
