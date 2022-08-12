@@ -3,15 +3,27 @@ import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { useParams } from 'react-router-dom';
 import { getPlanetById } from '../../redux/planets/asyncActions';
 import styles from './PlanetPage.module.scss';
+import { getPeopleById } from '../../redux/people/asyncActions';
+import { getIdInUrl } from '../../utils';
+import { People } from '../../components/People';
 
 export const PlanetPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const { id } = useParams();
   const { currPlanet } = useAppSelector((state) => state.planets);
+  const { results } = useAppSelector((state) => state.people);
 
   React.useEffect(() => {
     dispatch(getPlanetById(Number(id)));
   }, []);
+
+  React.useEffect(() => {
+    if (!currPlanet) return;
+
+    currPlanet.residents.forEach((item) => {
+      dispatch(getPeopleById(Number(getIdInUrl(item))));
+    });
+  }, [currPlanet]);
 
   return (
     <div>
@@ -58,11 +70,11 @@ export const PlanetPage: React.FC = () => {
               ))}
             </div>
           </div>
-          <div>
+          <div className={styles.residents}>
             <h2 className={styles.info}>Residents</h2>
-            <div className={styles.residents}>
-              {currPlanet.residents.map((item) => (
-                <span>{item}</span>
+            <div className={styles.list}>
+              {results.map((item) => (
+                <People key={item.url} {...item} />
               ))}
             </div>
           </div>

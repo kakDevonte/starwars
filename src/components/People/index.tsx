@@ -14,7 +14,7 @@ export const People = React.forwardRef<HTMLDivElement, PeopleProps>(
   (props, ref) => {
     return (
       <div className={styles.root} ref={ref}>
-        <NavLink to={`/planet/${getIdInUrl(props.url)}`}>
+        <NavLink to={`/people/${getIdInUrl(props.url)}`}>
           <h2>{props.name}</h2>
         </NavLink>
         <span>Gender: {props.gender}</span>

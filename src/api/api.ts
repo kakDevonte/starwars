@@ -11,4 +11,10 @@ export const starAPI = {
   getPlanetById(id: number) {
     return instance.get(`planets/${id}`);
   },
+  getPeople(page: number) {
+    return instance.get(`people/?page=${page}`);
+  },
+  getPeopleById(id: number) {
+    return instance.get(`people/${id}`);
+  },
 };
