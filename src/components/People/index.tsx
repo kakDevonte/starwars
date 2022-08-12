@@ -1,24 +1,24 @@
 import React from 'react';
-import styles from './Planet.module.scss';
+import styles from '../Planet/Planet.module.scss';
 import { NavLink } from 'react-router-dom';
 import { getIdInUrl } from '../../utils';
 
-type PlanetProps = {
+type PeopleProps = {
   name: string;
-  population: string;
-  terrain: string;
+  gender: string;
+  birth_year: string;
   url: string;
 } & React.ComponentPropsWithoutRef<'div'>;
 
-export const Planet = React.forwardRef<HTMLDivElement, PlanetProps>(
+export const People = React.forwardRef<HTMLDivElement, PeopleProps>(
   (props, ref) => {
     return (
       <div className={styles.root} ref={ref}>
         <NavLink to={`/planet/${getIdInUrl(props.url)}`}>
           <h2>{props.name}</h2>
         </NavLink>
-        <span>Population: {props.population}</span>
-        <span>Terrain: {props.terrain}</span>
+        <span>Gender: {props.gender}</span>
+        <span>Birth year: {props.birth_year}</span>
       </div>
     );
   }
