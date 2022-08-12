@@ -17,3 +17,17 @@ export const getPeopleById = createAsyncThunk<PeopleType, number>(
     return data;
   }
 );
+
+export const getPeopleByArray = createAsyncThunk<PeopleType[], string[]>(
+  'people/getPeopleByArray',
+  async (array) => {
+    const peopleArray: PeopleType[] = await Promise.all(
+      array.map(async (item) => {
+        const { data } = await starAPI.getPeopleById(Number(item));
+        return data;
+      })
+    );
+
+    return peopleArray;
+  }
+);

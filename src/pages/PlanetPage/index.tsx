@@ -2,27 +2,28 @@ import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { useParams } from 'react-router-dom';
 import { getPlanetById } from '../../redux/planets/asyncActions';
-import styles from './PlanetPage.module.scss';
-import { getPeopleById } from '../../redux/people/asyncActions';
-import { getIdInUrl } from '../../utils';
+import { getPeopleByArray } from '../../redux/people/asyncActions';
 import { People } from '../../components/People';
+import { clearPeople } from '../../redux/people/slice';
+import { getListIds } from '../../utils/getListIds';
+import styles from './PlanetPage.module.scss';
 
 export const PlanetPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const { id } = useParams();
   const { currPlanet } = useAppSelector((state) => state.planets);
-  const { results } = useAppSelector((state) => state.people);
+  const { results, status } = useAppSelector((state) => state.people);
 
   React.useEffect(() => {
     dispatch(getPlanetById(Number(id)));
+    dispatch(clearPeople());
   }, []);
 
   React.useEffect(() => {
     if (!currPlanet) return;
 
-    currPlanet.residents.forEach((item) => {
-      dispatch(getPeopleById(Number(getIdInUrl(item))));
-    });
+    const listIds: string[] = getListIds(currPlanet.residents);
+    dispatch(getPeopleByArray(listIds));
   }, [currPlanet]);
 
   return (
@@ -66,16 +67,18 @@ export const PlanetPage: React.FC = () => {
             <h2 className={styles.info}>Films</h2>
             <div className={styles.films}>
               {currPlanet.films.map((item) => (
-                <span>{item}</span>
+                <span key={item}>{item}</span>
               ))}
             </div>
           </div>
           <div className={styles.residents}>
             <h2 className={styles.info}>Residents</h2>
             <div className={styles.list}>
-              {results.map((item) => (
-                <People key={item.url} {...item} />
-              ))}
+              {status !== 'loading' ? (
+                results.map((item) => <People key={item.url} {...item} />)
+              ) : (
+                <span>Загрузка...</span>
+              )}
             </div>
           </div>
         </div>

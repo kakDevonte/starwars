@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../Planet/Planet.module.scss';
+import styles from './People.module.scss';
 import { NavLink } from 'react-router-dom';
 import { getIdInUrl } from '../../utils';
 

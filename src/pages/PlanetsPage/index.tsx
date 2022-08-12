@@ -1,9 +1,9 @@
 import React from 'react';
 import { Planet } from '../../components/Planet';
-import styles from './PlanetsPage.module.scss';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { getPlanets } from '../../redux/planets/asyncActions';
-import { clearResults } from '../../redux/planets/slice';
+import { clearPlanets } from '../../redux/planets/slice';
+import styles from './PlanetsPage.module.scss';
 
 export const PlanetsPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -26,7 +26,7 @@ export const PlanetsPage: React.FC = () => {
   );
 
   React.useEffect(() => {
-    dispatch(clearResults());
+    dispatch(clearPlanets());
     setPage(1);
   }, []);
 

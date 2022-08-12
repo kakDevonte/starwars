@@ -14,7 +14,7 @@ const planetsSlice = createSlice({
   name: 'planets',
   initialState,
   reducers: {
-    clearResults(state) {
+    clearPlanets(state) {
       state.results = [];
     },
   },
@@ -29,5 +29,5 @@ const planetsSlice = createSlice({
   },
 });
 
-export const { clearResults } = planetsSlice.actions;
+export const { clearPlanets } = planetsSlice.actions;
 export default planetsSlice.reducer;

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { PeopleType } from '../redux/people/types';
 
 const instance = axios.create({
   baseURL: 'https://swapi.dev/api/',
@@ -15,6 +16,6 @@ export const starAPI = {
     return instance.get(`people/?page=${page}`);
   },
   getPeopleById(id: number) {
-    return instance.get(`people/${id}`);
+    return instance.get<PeopleType>(`people/${id}`);
   },
 };

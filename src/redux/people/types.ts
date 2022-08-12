@@ -4,6 +4,7 @@ export type PeopleState = {
   previous: string | null;
   results: PeopleType[];
   currPeople: PeopleType | null;
+  status: 'loading' | 'success' | 'error';
 };
 
 export type PeopleType = {
