@@ -18,4 +18,10 @@ export const starAPI = {
   getPeopleById(id: number) {
     return instance.get<PeopleType>(`people/${id}`);
   },
+  getFilms() {
+    return instance.get(`films/`);
+  },
+  getFilmById(id: number) {
+    return instance.get(`films/${id}`);
+  },
 };

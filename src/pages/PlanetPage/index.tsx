@@ -7,16 +7,26 @@ import { People } from '../../components/People';
 import { clearPeople } from '../../redux/people/slice';
 import { getListIds } from '../../utils/getListIds';
 import styles from './PlanetPage.module.scss';
+import { Film } from '../../components/Film';
+import { getFilmByArray } from '../../redux/films/asyncActions';
+import { clearFilms } from '../../redux/films/slice';
+import { clearCurrPlanet } from '../../redux/planets/slice';
 
 export const PlanetPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const { id } = useParams();
   const { currPlanet } = useAppSelector((state) => state.planets);
-  const { results, status } = useAppSelector((state) => state.people);
+  const people = useAppSelector((state) => state.people);
+  const films = useAppSelector((state) => state.films);
 
   React.useEffect(() => {
     dispatch(getPlanetById(Number(id)));
     dispatch(clearPeople());
+    dispatch(clearFilms());
+
+    return () => {
+      dispatch(clearCurrPlanet());
+    };
   }, []);
 
   React.useEffect(() => {
@@ -24,6 +34,13 @@ export const PlanetPage: React.FC = () => {
 
     const listIds: string[] = getListIds(currPlanet.residents);
     dispatch(getPeopleByArray(listIds));
+  }, [currPlanet]);
+
+  React.useEffect(() => {
+    if (!currPlanet) return;
+
+    const listIds: string[] = getListIds(currPlanet.films);
+    dispatch(getFilmByArray(listIds));
   }, [currPlanet]);
 
   return (
@@ -63,19 +80,23 @@ export const PlanetPage: React.FC = () => {
             <span>Population: </span>
             <span className={styles.info}>{currPlanet.population}</span>
           </div>
-          <div>
+          <div className={styles.films}>
             <h2 className={styles.info}>Films</h2>
-            <div className={styles.films}>
-              {currPlanet.films.map((item) => (
-                <span key={item}>{item}</span>
-              ))}
+            <div className={styles.list}>
+              {films.status !== 'loading' ? (
+                films.results.map((item) => <Film key={item.url} {...item} />)
+              ) : (
+                <span>Загрузка...</span>
+              )}
             </div>
           </div>
           <div className={styles.residents}>
             <h2 className={styles.info}>Residents</h2>
             <div className={styles.list}>
-              {status !== 'loading' ? (
-                results.map((item) => <People key={item.url} {...item} />)
+              {people.status !== 'loading' ? (
+                people.results.map((item) => (
+                  <People key={item.url} {...item} />
+                ))
               ) : (
                 <span>Загрузка...</span>
               )}

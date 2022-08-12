@@ -17,6 +17,9 @@ const planetsSlice = createSlice({
     clearPlanets(state) {
       state.results = [];
     },
+    clearCurrPlanet(state) {
+      state.currPlanet = null;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getPlanets.fulfilled, (state, action) => {
@@ -29,5 +32,5 @@ const planetsSlice = createSlice({
   },
 });
 
-export const { clearPlanets } = planetsSlice.actions;
+export const { clearPlanets, clearCurrPlanet } = planetsSlice.actions;
 export default planetsSlice.reducer;
